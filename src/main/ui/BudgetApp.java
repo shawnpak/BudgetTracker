@@ -41,7 +41,6 @@ public class BudgetApp implements Serializable {
         }
         System.out.println(month.budgetStatus());
         System.out.println("Your expenses are: " + month.checkExpenses());
-        month.expenseList();
     }
 
     // MODIFIES: this
