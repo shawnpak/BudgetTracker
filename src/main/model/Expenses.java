@@ -1,8 +1,12 @@
 package model;
 
-public class Expenses {
+import java.io.Serializable;
+
+public class Expenses implements Serializable, Money {
+
     public String expenseType;
     public int expense;
+    private static final long serialVersionUID = 403206167512077727L;
 
     // REQUIRES: expenses > 0
     // EFFECTS: Constructs an expense with type and amount spent
@@ -11,13 +15,23 @@ public class Expenses {
         this.expense = expenses;
     }
 
-    // EFFECTS: returns expense amount
-    public int getExpense() {
+    // EFFECTS: returns type of expense
+    public String getType() {
+        return expenseType;
+    }
+
+    @Override
+    public int count() {
         return expense;
     }
 
-    // EFFECTS: returns type of expense
-    public String getExpenseType() {
-        return expenseType;
+    @Override
+    public void increase(int e) {
+        expense += e;
+    }
+
+    @Override
+    public void decrease(int e) {
+        expense -= e;
     }
 }

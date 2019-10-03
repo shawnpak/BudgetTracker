@@ -2,12 +2,18 @@ package ui;
 
 import model.Expenses;
 import model.Budget;
+import model.Housing;
+import model.Essential;
 
+import java.io.*;
 import java.util.Scanner;
 
-public class BudgetApp {
-    private Scanner reader;
-    private Budget month;
+public class BudgetApp implements Serializable {
+    private static Scanner reader;
+    public Budget month;
+    private String expenseType;
+    private int essential;
+    private int nonEssential;
 
     // EFFECTS: Constructs a budget app which initializes a new Budget with 0 set as its budget
     public BudgetApp() {
@@ -19,6 +25,7 @@ public class BudgetApp {
     public void start() {
         while (true) {
             System.out.println("Enter a command:");
+            reader = new Scanner(System.in);
             String command = reader.nextLine();
             if (command.equals("budget")) {
                 budget();
@@ -48,12 +55,28 @@ public class BudgetApp {
     // MODIFIES: this
     // EFFECTS: asks user for an Expense and adds it to Budget
     public void expense() {
-        System.out.println("Enter your expense type:");
-        String type = reader.nextLine();
-        System.out.println("Enter your expense amount:");
-        int exp = reader.nextInt();
-        Expenses exp1 = new Expenses(type, exp);
-        month.addExpense(exp1);
+        System.out.println("Essential or non-essential?");
+        String ess = reader.nextLine();
+        if (ess.equals("essential")) {
+            essential();
+        }
     }
+
+    public void essential() {
+        System.out.println("What's your expense type?");
+        String type = reader.nextLine();
+        this.expenseType = type;
+        if (type.equals("rent")) {
+            housing();
+        }
+    }
+
+    public void housing() {
+        System.out.println("Enter your expense amount: ");
+        int exp = reader.nextInt();
+        Expenses housing = new Housing(expenseType, exp);
+        month.addExpense(housing);
+    }
+
 }
 

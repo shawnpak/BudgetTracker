@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Budget {
+public class Budget implements Serializable {
     public int budget;
     public int expenses;
     public ArrayList<Expenses> expenseList;
@@ -15,18 +16,23 @@ public class Budget {
         expenseList = new ArrayList<>();
     }
 
+    public void setBudget(int budget) {
+        this.budget = budget;
+
+    }
+
+    // EFFECTS: returns true if expenses is lower than or equal to the budget,
+    //          false otherwise
+
+    public boolean checkBudget() {
+        return expenses <= budget;
+    }
 
     // MODIFIES: this
     // EFFECTS: adds expense to expenseList
     public void addExpense(Expenses expense) {
         this.expenseList.add(expense);
-        this.expenses += expense.getExpense();
-    }
-
-    // EFFECTS: returns true if expenses is lower than or equal to the budget,
-    //          false otherwise
-    public boolean checkBudget() {
-        return expenses <= budget;
+        this.expenses += expense.count();
     }
 
     // EFFECTS: returns a statement on whether or not budget has been exceeded
@@ -48,7 +54,7 @@ public class Budget {
     // EFFECTS: prints out all the expenses in expenseList
     public void expenseList() {
         for (Expenses e : expenseList) {
-            System.out.println(e.getExpenseType() + ", " + e.getExpense());
+            System.out.println(e.getType() + ", " + e.count());
         }
     }
 

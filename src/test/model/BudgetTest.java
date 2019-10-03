@@ -25,8 +25,8 @@ class BudgetTest {
     }
     @Test
     void testAddExpense() {
-        assertEquals(expenses, expense.getExpense());
-        assertEquals(expenseType, expense.getExpenseType());
+        assertEquals(expenses, expense.count());
+        assertEquals(expenseType, expense.getType());
     }
 
     @Test

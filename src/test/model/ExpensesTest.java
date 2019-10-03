@@ -19,13 +19,30 @@ class ExpensesTest {
 
     @Test
     void getExpense() {
-        assertEquals(expAmnt, exp.getExpense());
+        assertEquals(expAmnt, exp.count());
     }
 
     @Test
     void getExpenseType() {
-        assertEquals(expType, exp.getExpenseType());
+        assertEquals(expType, exp.getType());
     }
 
+    @Test
+    void getType() {
+        assertEquals(exp.getType(), expType);
+
+    }
+
+    @Test
+    void increase() {
+        exp.increase(5);
+        assertEquals(exp.count(), expAmnt + 5);
+    }
+
+    @Test
+    void decrease() {
+        exp.decrease(5);
+        assertEquals(exp.count(), expAmnt - 5);
+    }
 
 }
