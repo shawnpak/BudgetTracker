@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Expenses implements Serializable, Money {
+public abstract class Expenses implements Serializable, Money {
 
     public String expenseType;
     public int expense;
@@ -20,18 +20,7 @@ public class Expenses implements Serializable, Money {
         return expenseType;
     }
 
-    @Override
-    public int count() {
-        return expense;
-    }
+    abstract boolean paidYet();
 
-    @Override
-    public void increase(int e) {
-        expense += e;
-    }
 
-    @Override
-    public void decrease(int e) {
-        expense -= e;
-    }
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class BudgetApp implements Serializable {
     private static Scanner reader;
     public Budget month;
-    private String expenseType;
+    public String expenseType;
     private int essential;
     private int nonEssential;
 
@@ -20,6 +20,20 @@ public class BudgetApp implements Serializable {
         this.reader = new Scanner(System.in);
         this.month = new Budget(0);
 
+    }
+
+    public void initialize() throws IOException {
+        System.out.println("Load/New?");
+        String initial = reader.nextLine();
+        if (initial.equals("load")) {
+            try {
+                load();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        start();
+        save();
     }
 
     public void start() {
@@ -39,8 +53,7 @@ public class BudgetApp implements Serializable {
                 break;
             }
         }
-        System.out.println(month.budgetStatus());
-        System.out.println("Your expenses are: " + month.checkExpenses());
+        report();
     }
 
     // MODIFIES: this
@@ -54,28 +67,68 @@ public class BudgetApp implements Serializable {
     // MODIFIES: this
     // EFFECTS: asks user for an Expense and adds it to Budget
     public void expense() {
-        System.out.println("Essential or non-essential?");
+        System.out.println("e - Essential");
+        System.out.println("ne - Non-Essential");
         String ess = reader.nextLine();
-        if (ess.equals("essential")) {
+        if (ess.equals("e")) {
             essential();
         }
     }
 
     public void essential() {
         System.out.println("What's your expense type?");
+        System.out.println("1 - Housing");
+        System.out.println("2 - Food");
+        System.out.println("3 - Utilities");
         String type = reader.nextLine();
-        this.expenseType = type;
-        if (type.equals("rent")) {
+        if (type.equals("1")) {
             housing();
         }
     }
 
     public void housing() {
+        System.out.println("Name of expense: ");
+        this.expenseType = reader.nextLine();
         System.out.println("Enter your expense amount: ");
         int exp = reader.nextInt();
-        Expenses housing = new Housing(expenseType, exp);
+        addEssential(exp);
+        boolean paidYet;
+
+        reader = new Scanner(System.in);
+        System.out.println("Paid yet? Y/N");
+        String paid = reader.nextLine();
+        paidYet = paid.equals("Y");
+        Housing housing = new Housing(expenseType, exp, paidYet);
+        housing.reminder();
         month.addExpense(housing);
     }
+
+    public void report() {
+        System.out.println(month.budgetStatus());
+        System.out.println("Your expenses are: " + month.checkExpenses());
+        month.expenseList();
+        System.out.println("Essentials: " + essential);
+
+    }
+
+    public void save() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./data/budget.bin"));
+        oos.writeObject(this);
+    }
+
+    public void load() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./data/budget.bin"));
+        BudgetApp month = (BudgetApp) ois.readObject();
+        month.start();
+        save();
+
+    }
+
+
+    public void addEssential(int e) {
+        essential += e;
+    }
+
 
 }
 
