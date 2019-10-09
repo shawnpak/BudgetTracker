@@ -7,7 +7,7 @@ public class Budget implements Serializable {
     public int budget;
     public int expenses;
     public ArrayList<Expenses> expenseList;
-
+//
     // REQUIRES: budget >= 0
     // EFFECTS: creates a new Budget with budget amount
     public Budget(int budget) {
