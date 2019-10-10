@@ -6,6 +6,7 @@ public class PersonalSpending extends NonEssential implements Serializable {
 
     public int ps;
     private boolean paid;
+
     public PersonalSpending(String expenseType, int expenses, boolean paid) {
         super(expenseType, expenses);
         ps += expenses;
