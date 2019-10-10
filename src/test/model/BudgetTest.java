@@ -56,4 +56,5 @@ class BudgetTest {
         assertEquals(500, budget.checkExpenses());
     }
 
+
 }

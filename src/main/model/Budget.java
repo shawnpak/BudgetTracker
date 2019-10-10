@@ -17,10 +17,6 @@ public class Budget implements Serializable {
         expenseList = new ArrayList<>();
     }
 
-    public void setBudget(int budget) {
-        this.budget = budget;
-
-    }
 
     // EFFECTS: returns true if expenses is lower than or equal to the budget,
     //          false otherwise

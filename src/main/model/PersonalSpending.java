@@ -4,27 +4,31 @@ import java.io.Serializable;
 
 public class PersonalSpending extends NonEssential implements Serializable {
 
-    public PersonalSpending(String expenseType, int expenses) {
+    public int ps;
+    private boolean paid;
+    public PersonalSpending(String expenseType, int expenses, boolean paid) {
         super(expenseType, expenses);
+        ps += expenses;
+        this.paid = paid;
     }
 
     @Override
     boolean paidYet() {
-        return false;
+        return paid;
     }
 
     @Override
     public int count() {
-        return 0;
+        return ps;
     }
 
     @Override
     public void increase(int e) {
-
+        ps += e;
     }
 
     @Override
     public void decrease(int e) {
-
+        ps -= e;
     }
 }
