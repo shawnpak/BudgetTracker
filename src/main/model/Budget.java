@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.NegativeInputException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,7 +13,10 @@ public class Budget implements Serializable {
     //
     // REQUIRES: budget >= 0
     // EFFECTS: creates a new Budget with budget amount
-    public Budget(int budget) {
+    public Budget(int budget) throws NegativeInputException {
+        if (budget < 0) {
+            throw new NegativeInputException();
+        }
         this.budget = budget;
         this.expenses = 0;
         expenseList = new ArrayList<>();
@@ -55,5 +60,10 @@ public class Budget implements Serializable {
         }
     }
 
-
+    public void setBudget(int budget) throws NegativeInputException {
+        if (budget < 0) {
+            throw new NegativeInputException();
+        }
+        this.budget = budget;
+    }
 }

@@ -1,16 +1,16 @@
 package model;
 
+import model.exception.LargeNumberException;
+import model.exception.NegativeInputException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class BudgetTest {
-    private int bud = 1500;
     private int expenses = 500;
     private String expenseType = "rent";
     private ArrayList<Expenses> expenseList;
@@ -19,9 +19,29 @@ class BudgetTest {
 
     @BeforeEach
     void runBefore() {
-        budget = new Budget(bud);
-        expense = new Housing("rent", 500, true);
+        try {
+            budget = new Budget(1500);
+            expense = new Housing("rent", 500, true);
+        } catch (NegativeInputException|LargeNumberException e) {
+        }
         budget.addExpense(expense);
+    }
+    @Test
+    void noExceptionConstructor() {
+        try {
+            Budget noException = new Budget(1500);
+            assertEquals(noException.budget, 1500);
+        } catch (NegativeInputException e) {
+            fail();
+        }
+    }
+    @Test
+    void negativeExceptionConstructor() {
+        try {
+            Budget negative = new Budget(-1500);
+            fail();
+        } catch (NegativeInputException e) {
+        }
     }
     @Test
     void testAddExpense() {
@@ -31,13 +51,13 @@ class BudgetTest {
 
     @Test
     void testCheckBudgetWhenTrue() {
-        expense = new Housing("test", 1000, true);
         budget.addExpense(expense);
         assertTrue(budget.checkBudget());
     }
     @Test
     void testCheckBudgetWhenFalse() {
-        expense = new Housing("test", 1001, true);
+        budget.addExpense(expense);
+        budget.addExpense(expense);
         budget.addExpense(expense);
         assertFalse(budget.checkBudget());
     }
@@ -47,7 +67,8 @@ class BudgetTest {
     }
     @Test
     void testBudgetStatusWhenExceeded() {
-        expense = new Housing("test", 1001, true);
+        budget.addExpense(expense);
+        budget.addExpense(expense);
         budget.addExpense(expense);
         assertEquals("You have exceeded your budget!", budget.budgetStatus());
     }

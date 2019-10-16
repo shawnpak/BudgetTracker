@@ -4,6 +4,8 @@ import model.Expenses;
 import model.Budget;
 import model.Housing;
 import model.Essential;
+import model.exception.LargeNumberException;
+import model.exception.NegativeInputException;
 
 import java.io.*;
 import java.util.Scanner;
@@ -18,7 +20,11 @@ public class BudgetApp implements Serializable {
     // EFFECTS: Constructs a budget app which initializes a new Budget with 0 set as its budget
     public BudgetApp() {
         this.reader = new Scanner(System.in);
-        this.month = new Budget(0);
+        try {
+            this.month = new Budget(0);
+        } catch (NegativeInputException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -61,7 +67,11 @@ public class BudgetApp implements Serializable {
     public void budget() {
         System.out.println("What's your budget?");
         int budget = reader.nextInt();
-        month.budget += budget;
+        try {
+            month.setBudget(budget);
+        } catch (NegativeInputException e) {
+            System.out.println("You can't have a negative budget!");
+        }
     }
 
     // MODIFIES: this
@@ -87,20 +97,24 @@ public class BudgetApp implements Serializable {
     }
 
     public void housing() {
-        System.out.println("Name of expense: ");
-        this.expenseType = reader.nextLine();
-        System.out.println("Enter your expense amount: ");
-        int exp = reader.nextInt();
-        addEssential(exp);
-        boolean paidYet;
-
-        reader = new Scanner(System.in);
-        System.out.println("Paid yet? Y/N");
-        String paid = reader.nextLine();
-        paidYet = paid.equals("Y");
-        Housing housing = new Housing(expenseType, exp, paidYet);
-        housing.reminder();
-        month.addExpense(housing);
+        try {
+            System.out.println("Name of expense: ");
+            this.expenseType = reader.nextLine();
+            System.out.println("Enter your expense amount: ");
+            int exp = reader.nextInt();
+            boolean paidYet;
+            reader = new Scanner(System.in);
+            System.out.println("Paid yet? Y/N");
+            String paid = reader.nextLine();
+            paidYet = paid.equals("Y");
+            Housing housing = new Housing(expenseType, exp, paidYet);
+            addEssential(exp);
+            month.addExpense(housing);
+        } catch (NegativeInputException e) {
+            System.out.println("Your expenses can't be negative!");
+        } catch (LargeNumberException e) {
+            System.out.println("There is no way you need to spend that mucuh!");
+        }
     }
 
     public void report() {

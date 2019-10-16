@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.LargeNumberException;
+import model.exception.NegativeInputException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +18,12 @@ class HousingTest {
 
     @BeforeEach
     void runBefore() {
-        exp = new Housing(expType, expAmnt, paid);
-        exp1 = new Housing(expType, expAmnt, false);
+        try {
+            exp = new Housing(expType, expAmnt, paid);
+            exp1 = new Housing(expType, expAmnt, false);
+        } catch (NegativeInputException| LargeNumberException e) {
+
+        }
     }
 
     @Test

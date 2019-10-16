@@ -1,4 +1,5 @@
 package model;
+import model.exception.NegativeInputException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +10,12 @@ public class PersonalSpendingTest {
     PersonalSpending ps1;
     @BeforeEach
     void runBefore() {
-        ps = new PersonalSpending("movie", 15, true);
-        ps1 = new PersonalSpending("ice cream", 5, false);
+        try {
+            ps = new PersonalSpending("movie", 15, true);
+            ps1 = new PersonalSpending("ice cream", 5, false);
+        } catch (NegativeInputException e) {
+
+        }
     }
 
     @Test
