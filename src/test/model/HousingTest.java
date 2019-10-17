@@ -27,6 +27,35 @@ class HousingTest {
     }
 
     @Test
+    void setNegativeExpense() {
+        try {
+            exp.setExpense(-5);
+            fail();
+        } catch (NegativeInputException e) {
+        } catch (LargeNumberException e) {
+            fail();
+        }
+
+    }
+    @Test
+    void setTooLargeExpense() {
+        try {
+            exp.setExpense(100001);
+            fail();
+        } catch (NegativeInputException e) {
+            fail();
+        } catch (LargeNumberException e) {
+        }
+    }
+    @Test
+    void setNoException() {
+        try {
+            exp.setExpense(1);
+        } catch (NegativeInputException|LargeNumberException e) {
+            fail();
+        }
+    }
+    @Test
     void paid() {
         assertTrue(exp.paidYet());
     }

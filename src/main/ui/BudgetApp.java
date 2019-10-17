@@ -36,6 +36,9 @@ public class BudgetApp implements Serializable {
                 load();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } finally {
+                System.out.println("All done!");
+                System.exit(0);
             }
         }
         start();
