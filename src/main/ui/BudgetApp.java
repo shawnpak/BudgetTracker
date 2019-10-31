@@ -1,25 +1,30 @@
 package ui;
 
-import model.Expenses;
 import model.Budget;
-import model.Housing;
-import model.Essential;
+import model.Category;
+import model.Expenses;
 import model.exception.LargeNumberException;
 import model.exception.NegativeInputException;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class BudgetApp implements Serializable {
     private static Scanner reader;
     public Budget month;
-    public String expenseType;
     private int essential;
-    private int nonEssential;
+    private String expenseType;
+    private int exp;
+    private Category category;
+    private Expenses expense;
+    private ArrayList<Category> categories;
 
     // EFFECTS: Constructs a budget app which initializes a new Budget with 0 set as its budget
     public BudgetApp() {
         this.reader = new Scanner(System.in);
+        this.categories = new ArrayList<>();
         try {
             this.month = new Budget(0);
         } catch (NegativeInputException e) {
@@ -38,10 +43,10 @@ public class BudgetApp implements Serializable {
                 e.printStackTrace();
             } finally {
                 System.out.println("All done!");
-                System.exit(0);
             }
+        } else {
+            start();
         }
-        start();
         save();
     }
 
@@ -80,51 +85,38 @@ public class BudgetApp implements Serializable {
     // MODIFIES: this
     // EFFECTS: asks user for an Expense and adds it to Budget
     public void expense() {
-        System.out.println("e - Essential");
-        System.out.println("ne - Non-Essential");
-        String ess = reader.nextLine();
-        if (ess.equals("e")) {
-            essential();
-        }
-    }
-
-    public void essential() {
         System.out.println("What's your expense type?");
         System.out.println("1 - Housing");
         System.out.println("2 - Food");
         System.out.println("3 - Utilities");
         String type = reader.nextLine();
+        enterExpense();
         if (type.equals("1")) {
-            housing();
+            for (Category c : categories) {
+                if (c.getCategory().equals("Housing")) {
+                    expense.setCategory(c);
+                    c.addExpense(expense);
+                    break;
+                }
+            }
+            category = new Category("Housing");
+            categories.add(category);
+            expense.setCategory(category);
+            category.addExpense(expense);
         }
+        addEssential(exp);
     }
 
-    public void housing() {
-        try {
-            System.out.println("Name of expense: ");
-            this.expenseType = reader.nextLine();
-            System.out.println("Enter your expense amount: ");
-            int exp = reader.nextInt();
-            boolean paidYet;
-            reader = new Scanner(System.in);
-            System.out.println("Paid yet? Y/N");
-            String paid = reader.nextLine();
-            paidYet = paid.equals("Y");
-            Housing housing = new Housing(expenseType, exp, paidYet);
-            addEssential(exp);
-            month.addExpense(housing);
-        } catch (NegativeInputException e) {
-            System.out.println("Your expenses can't be negative!");
-        } catch (LargeNumberException e) {
-            System.out.println("There is no way you need to spend that mucuh!");
-        }
-    }
 
     public void report() {
         System.out.println(month.budgetStatus());
         System.out.println("Your expenses are: " + month.checkExpenses());
-        month.expenseList();
         System.out.println("Essentials: " + essential);
+        for (Category c : categories) {
+            for (Map.Entry<String, Integer> entry : c.getExpenses().entrySet()) {
+                System.out.println(entry.getKey() + " - " + entry.getValue());
+            }
+        }
 
     }
 
@@ -137,15 +129,30 @@ public class BudgetApp implements Serializable {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./data/budget.bin"));
         BudgetApp month = (BudgetApp) ois.readObject();
         month.start();
-        save();
-
     }
 
 
     public void addEssential(int e) {
         essential += e;
     }
+//
+//    public void addExpenseList(String s, Integer i) {
+//        expenses.put(s, i);
+//    }
 
 
+    public void enterExpense() {
+        System.out.println("Name of expense: ");
+        this.expenseType = reader.nextLine();
+        System.out.println("Enter your expense amount: ");
+        this.exp = reader.nextInt();
+        try {
+            expense = new Expenses(expenseType, exp);
+        } catch (NegativeInputException e) {
+            System.out.println("Your expenses can't be negative!");
+        } catch (LargeNumberException e) {
+            System.out.println("There is no way you need to spend that much!");
+        }
+    }
 }
 

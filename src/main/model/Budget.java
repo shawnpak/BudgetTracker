@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Budget implements Serializable {
     public int budget;
     public int expenses;
-    public ArrayList<Expenses> expenseList;
 
     //
     // REQUIRES: budget >= 0
@@ -19,7 +18,6 @@ public class Budget implements Serializable {
         }
         this.budget = budget;
         this.expenses = 0;
-        expenseList = new ArrayList<>();
     }
 
 
@@ -30,12 +28,6 @@ public class Budget implements Serializable {
         return expenses <= budget;
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds expense to expenseList
-    public void addExpense(Expenses expense) {
-        this.expenseList.add(expense);
-        this.expenses += expense.count();
-    }
 
     // EFFECTS: returns a statement on whether or not budget has been exceeded
     public String budgetStatus() {
@@ -54,11 +46,7 @@ public class Budget implements Serializable {
     }
 
     // EFFECTS: prints out all the expenses in expenseList
-    public void expenseList() {
-        for (Expenses e : expenseList) {
-            System.out.println(e.getType() + ", " + e.count());
-        }
-    }
+
 
     public void setBudget(int budget) throws NegativeInputException {
         if (budget < 0) {
