@@ -32,10 +32,18 @@ class CategoryTest {
         try {
             Expenses e1 = new Expenses("rent", 1501);
             c.addExpense(e1);
+            assertEquals(c.getExpenses().get("rent"), 1501);
         } catch (NegativeInputException ex) {
             ex.printStackTrace();
         } catch (LargeNumberException ex) {
             ex.printStackTrace();
         }
     }
+    @Test
+    void testGettersSetters() {
+        c.addExpense(e);
+        assertEquals("Housing", c.getCategory());
+        assertTrue(c.getExpenses().containsKey("rent"));
+    }
+
 }

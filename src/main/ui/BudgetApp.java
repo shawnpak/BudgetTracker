@@ -92,19 +92,13 @@ public class BudgetApp implements Serializable {
         String type = reader.nextLine();
         enterExpense();
         if (type.equals("1")) {
-            for (Category c : categories) {
-                if (c.getCategory().equals("Housing")) {
-                    expense.setCategory(c);
-                    c.addExpense(expense);
-                    break;
-                }
+            if (!housing()) {
+                category = new Category("Housing");
+                categories.add(category);
+                expense.setCategory(category);
+                category.addExpense(expense);
             }
-            category = new Category("Housing");
-            categories.add(category);
-            expense.setCategory(category);
-            category.addExpense(expense);
         }
-        addEssential(exp);
     }
 
 
@@ -153,6 +147,18 @@ public class BudgetApp implements Serializable {
         } catch (LargeNumberException e) {
             System.out.println("There is no way you need to spend that much!");
         }
+    }
+
+    public Boolean housing() {
+        for (Category c : categories) {
+            if (c.getCategory().equals("Housing")) {
+                expense.setCategory(c);
+                c.addExpense(expense);
+                return true;
+            }
+        }
+        return false;
+
     }
 }
 
