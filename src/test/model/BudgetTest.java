@@ -22,10 +22,11 @@ class BudgetTest {
         try {
             budget = new Budget(1500);
             expense = new Expenses("rent", 500);
-        } catch (NegativeInputException|LargeNumberException e) {
+        } catch (NegativeInputException | LargeNumberException e) {
         }
         budget.expenses = expenses;
     }
+
     @Test
     void noExceptionConstructor() {
         try {
@@ -35,6 +36,7 @@ class BudgetTest {
             fail();
         }
     }
+
     @Test
     void negativeExceptionConstructor() {
         try {
@@ -43,6 +45,7 @@ class BudgetTest {
         } catch (NegativeInputException e) {
         }
     }
+
     @Test
     void testAddExpense() {
         assertEquals(expenses, 500);
@@ -54,23 +57,46 @@ class BudgetTest {
         budget.expenses = 500;
         assertTrue(budget.checkBudget());
     }
+
     @Test
     void testCheckBudgetWhenFalse() {
         budget.expenses = 1501;
         assertFalse(budget.checkBudget());
     }
+
     @Test
     void testBudgetStatusWhenWithin() {
         assertEquals("You are within budget!", budget.budgetStatus());
     }
+
     @Test
     void testBudgetStatusWhenExceeded() {
         budget.expenses = 1501;
         assertEquals("You have exceeded your budget!", budget.budgetStatus());
     }
+
     @Test
     void testCheckExpenses() {
         assertEquals(500, budget.checkExpenses());
+    }
+
+    @Test
+    void testSetBudget() {
+        try {
+            budget.setBudget(50);
+            assertEquals(budget.budget, 50);
+        } catch (NegativeInputException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testSetBudgetNegativeException() {
+        try {
+            budget.setBudget(-50);
+            fail();
+        } catch (NegativeInputException e) {
+        }
     }
 
 

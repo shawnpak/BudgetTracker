@@ -29,23 +29,6 @@ public class Category implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Category category1 = (Category) o;
-        return Objects.equals(category, category1.category) && Objects.equals(expenses, category1.expenses);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(category, expenses);
-    }
-
-    @Override
     public String toString() {
         return category;
     }

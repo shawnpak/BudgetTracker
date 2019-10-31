@@ -46,4 +46,5 @@ class CategoryTest {
         assertTrue(c.getExpenses().containsKey("rent"));
     }
 
+
 }

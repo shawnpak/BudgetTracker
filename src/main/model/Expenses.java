@@ -18,7 +18,7 @@ public class Expenses implements Serializable {
     public Expenses(String expenseType, int expenses) throws NegativeInputException, LargeNumberException {
         if (expenses < 0) {
             throw new NegativeInputException();
-        } else if (expense > 100000) {
+        } else if (expenses > 100000) {
             throw new LargeNumberException();
         }
         this.expenseType = expenseType;
