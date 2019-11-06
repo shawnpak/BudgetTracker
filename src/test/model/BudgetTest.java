@@ -52,27 +52,27 @@ class BudgetTest {
         assertEquals(expenseType, "rent");
     }
 
-    @Test
-    void testCheckBudgetWhenTrue() {
-        budget.expenses = 500;
-        assertTrue(budget.checkBudget());
-    }
-
-    @Test
-    void testCheckBudgetWhenFalse() {
-        budget.expenses = 1501;
-        assertFalse(budget.checkBudget());
-    }
+//    @Test
+//    void testCheckBudgetWhenTrue() {
+//        budget.expenses = 500;
+//        assertTrue(budget.checkBudget());
+//    }
+//
+//    @Test
+//    void testCheckBudgetWhenFalse() {
+//        budget.expenses = 1501;
+//        assertFalse(budget.checkBudget());
+//    }
 
     @Test
     void testBudgetStatusWhenWithin() {
-        assertEquals("You are within budget!", budget.budgetStatus());
+        assertEquals("You are within budget!", budget.budgetStatus(budget.expenses));
     }
 
     @Test
     void testBudgetStatusWhenExceeded() {
         budget.expenses = 1501;
-        assertEquals("You have exceeded your budget!", budget.budgetStatus());
+        assertEquals("You have exceeded your budget!", budget.budgetStatus(budget.expenses));
     }
 
     @Test

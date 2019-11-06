@@ -24,14 +24,14 @@ public class Budget implements Serializable {
     // EFFECTS: returns true if expenses is lower than or equal to the budget,
     //          false otherwise
 
-    public boolean checkBudget() {
-        return expenses <= budget;
+    public boolean checkBudget(int expense) {
+        return expense <= budget;
     }
 
 
     // EFFECTS: returns a statement on whether or not budget has been exceeded
-    public String budgetStatus() {
-        if (checkBudget()) {
+    public String budgetStatus(int expense) {
+        if (checkBudget(expense)) {
             return "You are within budget!";
         } else {
             return "You have exceeded your budget!";

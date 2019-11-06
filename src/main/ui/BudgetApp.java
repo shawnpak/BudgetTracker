@@ -19,12 +19,13 @@ public class BudgetApp implements Serializable {
     private int exp;
     private Category category;
     private Expenses expense;
-    private ArrayList<Category> categories;
+    private ArrayList<Category> categoriesList;
+    private int totalExpense;
 
     // EFFECTS: Constructs a budget app which initializes a new Budget with 0 set as its budget
     public BudgetApp() {
         this.reader = new Scanner(System.in);
-        this.categories = new ArrayList<>();
+        this.categoriesList = new ArrayList<>();
         try {
             this.month = new Budget(0);
         } catch (NegativeInputException e) {
@@ -92,27 +93,29 @@ public class BudgetApp implements Serializable {
         String type = reader.nextLine();
         enterExpense();
         if (type.equals("1")) {
-            if (!housing()) {
-                category = new Category("Housing");
-                categories.add(category);
-                expense.setCategory(category);
-                category.addExpense(expense);
-            }
+            type = "Housing";
+        } else if (type.equals("2")) {
+            type = "Food";
+        }
+        if (!checkCategory(type)) {
+            createCategory(type);
         }
     }
 
 
     public void report() {
-        System.out.println(month.budgetStatus());
-        System.out.println("Your expenses are: " + month.checkExpenses());
-        System.out.println("Essentials: " + essential);
-        for (Category c : categories) {
+        for (Category c : categoriesList) {
+            System.out.println(c.getCategory() + ":");
             for (Map.Entry<String, Integer> entry : c.getExpenses().entrySet()) {
                 System.out.println(entry.getKey() + " - " + entry.getValue());
+                totalExpense += entry.getValue();
             }
         }
+        System.out.println("Your expenses are: " + totalExpense);
+        System.out.println(month.budgetStatus(totalExpense));
 
     }
+
 
     public void save() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./data/budget.bin"));
@@ -126,9 +129,6 @@ public class BudgetApp implements Serializable {
     }
 
 
-    public void addEssential(int e) {
-        essential += e;
-    }
 //
 //    public void addExpenseList(String s, Integer i) {
 //        expenses.put(s, i);
@@ -149,9 +149,9 @@ public class BudgetApp implements Serializable {
         }
     }
 
-    public Boolean housing() {
-        for (Category c : categories) {
-            if (c.getCategory().equals("Housing")) {
+    public Boolean checkCategory(String s) {
+        for (Category c : categoriesList) {
+            if (c.getCategory().equals(s)) {
                 expense.setCategory(c);
                 c.addExpense(expense);
                 return true;
@@ -159,6 +159,12 @@ public class BudgetApp implements Serializable {
         }
         return false;
 
+    }
+
+    public void createCategory(String c) {
+        category = new Category(c);
+        categoriesList.add(category);
+        category.addExpense(expense);
     }
 }
 

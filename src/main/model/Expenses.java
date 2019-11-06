@@ -32,6 +32,7 @@ public class Expenses implements Serializable {
     public void setCategory(Category c) {
         this.category = c;
 
+
     }
 
     public Category getCategory() {
