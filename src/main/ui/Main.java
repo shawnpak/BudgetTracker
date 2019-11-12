@@ -1,8 +1,7 @@
 package ui;
 
 
-import java.io.*;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Main {
 

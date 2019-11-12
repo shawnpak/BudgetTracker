@@ -26,6 +26,8 @@ class CategoryTest {
         c.addExpense(e);
         assertTrue(c.getExpenses().containsKey(e.getType()));
         assertTrue(c.getExpenses().containsValue(e.getExpense()));
+        c.addExpense(e);
+        assertEquals(c.getExpenses().size(), 1);
     }
     @Test
     void testAddDuplicateExpense() {
@@ -45,6 +47,9 @@ class CategoryTest {
         assertEquals("Housing", c.getCategory());
         assertTrue(c.getExpenses().containsKey("rent"));
     }
-
+    @Test
+    void testToString() {
+        assertEquals("Housing", c.toString());
+    }
 
 }

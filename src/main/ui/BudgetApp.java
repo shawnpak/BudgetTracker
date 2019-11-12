@@ -35,7 +35,6 @@ public class BudgetApp extends Subject implements Serializable {
         } catch (NegativeInputException e) {
             e.printStackTrace();
         }
-
     }
 
     public void initialize() throws IOException {
@@ -106,8 +105,6 @@ public class BudgetApp extends Subject implements Serializable {
         if (!checkCategory(type)) {
             createCategory(type);
         }
-        stats = 100 * ((double) totalExpense / (double) month.budget);
-        notifyObservers(expense, stats);
     }
 
 
@@ -119,7 +116,7 @@ public class BudgetApp extends Subject implements Serializable {
                 System.out.println(entry.getKey() + " - " + entry.getValue());
                 categoryExpense += entry.getValue();
             }
-            stats = 100 * ((double)categoryExpense / (double) month.budget);
+            stats = 100 * ((double) categoryExpense / (double) month.budget);
             System.out.println(stats + "% of budget");
         }
         System.out.println("Your expenses are: " + totalExpense);
@@ -152,7 +149,6 @@ public class BudgetApp extends Subject implements Serializable {
         this.exp = reader.nextInt();
         try {
             expense = new Expenses(expenseType, exp);
-            totalExpense += expense.getExpense();
         } catch (NegativeInputException e) {
             System.out.println("Your expenses can't be negative!");
         } catch (LargeNumberException e) {
@@ -163,8 +159,15 @@ public class BudgetApp extends Subject implements Serializable {
     public Boolean checkCategory(String s) {
         for (Category c : categoriesList) {
             if (c.getCategory().equals(s)) {
-                expense.setCategory(c);
-                c.addExpense(expense);
+                if (c.getExpenses().containsKey(expense.getType())) {
+                    System.out.println("You've already inputted this expense this month!");
+                } else {
+                    expense.setCategory(c);
+                    c.addExpense(expense);
+                    totalExpense += expense.getExpense();
+                    stats();
+                    notifyObservers(expense, stats);
+                }
                 return true;
             }
         }
@@ -172,10 +175,18 @@ public class BudgetApp extends Subject implements Serializable {
 
     }
 
+
     public void createCategory(String c) {
         category = new Category(c);
         categoriesList.add(category);
         category.addExpense(expense);
+        totalExpense += expense.getExpense();
+        stats();
+        notifyObservers(expense, stats);
+    }
+
+    public void stats() {
+        stats = 100 * ((double) totalExpense / (double) month.budget);
     }
 }
 

@@ -74,30 +74,7 @@ class ExpensesTest {
         }
 
     }
-    @Test
-    void testEquals() {
-        try {
-            Expenses e = new Expenses("rent",1500);
-            Expenses e1 = new Expenses("rent",1500);
-            assertTrue(e.equals(e1));
-        } catch (NegativeInputException e) {
-            e.printStackTrace();
-        } catch (LargeNumberException e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
-    void testNotEquals() {
-        try {
-            Expenses e = new Expenses("rent",1501);
-            Expenses e1 = new Expenses("rent",1500);
-            assertFalse(e.equals(e1));
-        } catch (NegativeInputException e) {
-            e.printStackTrace();
-        } catch (LargeNumberException e) {
-            e.printStackTrace();
-        }
-    }
+
     @Test
     void testHashCode() {
         assertEquals(Objects.hash(expenses.getType(), expenses.getExpense()), expenses.hashCode());
