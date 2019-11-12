@@ -9,7 +9,6 @@ public class Budget implements Serializable {
     public int budget;
     public int expenses;
 
-    //
     // REQUIRES: budget >= 0
     // EFFECTS: creates a new Budget with budget amount
     public Budget(int budget) throws NegativeInputException {

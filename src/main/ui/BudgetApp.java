@@ -5,22 +5,26 @@ import model.Category;
 import model.Expenses;
 import model.exception.LargeNumberException;
 import model.exception.NegativeInputException;
+import network.ReadWebPageEX;
+import observer.Subject;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-public class BudgetApp implements Serializable {
+public class BudgetApp extends Subject implements Serializable {
     private static Scanner reader;
     public Budget month;
-    private int essential;
     private String expenseType;
     private int exp;
     private Category category;
     private Expenses expense;
     private ArrayList<Category> categoriesList;
     private int totalExpense;
+    private double stats;
+    private String[] args;
+    private int categoryExpense;
 
     // EFFECTS: Constructs a budget app which initializes a new Budget with 0 set as its budget
     public BudgetApp() {
@@ -96,23 +100,35 @@ public class BudgetApp implements Serializable {
             type = "Housing";
         } else if (type.equals("2")) {
             type = "Food";
+        } else if (type.equals("3")) {
+            type = "Utilities";
         }
         if (!checkCategory(type)) {
             createCategory(type);
         }
+        stats = 100 * ((double) totalExpense / (double) month.budget);
+        notifyObservers(expense, stats);
     }
 
 
     public void report() {
         for (Category c : categoriesList) {
             System.out.println(c.getCategory() + ":");
+            categoryExpense = 0;
             for (Map.Entry<String, Integer> entry : c.getExpenses().entrySet()) {
                 System.out.println(entry.getKey() + " - " + entry.getValue());
-                totalExpense += entry.getValue();
+                categoryExpense += entry.getValue();
             }
+            stats = 100 * ((double)categoryExpense / (double) month.budget);
+            System.out.println(stats + "% of budget");
         }
         System.out.println("Your expenses are: " + totalExpense);
         System.out.println(month.budgetStatus(totalExpense));
+        try {
+            ReadWebPageEX.main(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -129,12 +145,6 @@ public class BudgetApp implements Serializable {
     }
 
 
-//
-//    public void addExpenseList(String s, Integer i) {
-//        expenses.put(s, i);
-//    }
-
-
     public void enterExpense() {
         System.out.println("Name of expense: ");
         this.expenseType = reader.nextLine();
@@ -142,6 +152,7 @@ public class BudgetApp implements Serializable {
         this.exp = reader.nextInt();
         try {
             expense = new Expenses(expenseType, exp);
+            totalExpense += expense.getExpense();
         } catch (NegativeInputException e) {
             System.out.println("Your expenses can't be negative!");
         } catch (LargeNumberException e) {
