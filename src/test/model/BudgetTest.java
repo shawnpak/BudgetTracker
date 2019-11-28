@@ -24,7 +24,6 @@ class BudgetTest {
             expense = new Expenses("rent", 500);
         } catch (NegativeInputException | LargeNumberException e) {
         }
-        budget.expenses = expenses;
     }
 
     @Test
@@ -66,19 +65,14 @@ class BudgetTest {
 
     @Test
     void testBudgetStatusWhenWithin() {
-        assertEquals("You are within budget!", budget.budgetStatus(budget.expenses));
+        assertEquals("You are within budget!", budget.budgetStatus(1500));
     }
 
     @Test
     void testBudgetStatusWhenExceeded() {
-        budget.expenses = 1501;
-        assertEquals("You have exceeded your budget!", budget.budgetStatus(budget.expenses));
+        assertEquals("You have exceeded your budget!", budget.budgetStatus(1501));
     }
 
-    @Test
-    void testCheckExpenses() {
-        assertEquals(500, budget.checkExpenses());
-    }
 
     @Test
     void testSetBudget() {

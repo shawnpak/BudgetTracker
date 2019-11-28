@@ -9,13 +9,13 @@ import java.util.Objects;
 public class Expenses implements Serializable {
 
     private String expenseType;
-    private int expense;
+    private double expense;
     private Category category;
     private static final long serialVersionUID = 403206167512077727L;
 
     // REQUIRES: expenses >= 0
     // EFFECTS: Constructs an expense with type and amount spent
-    public Expenses(String expenseType, int expenses) throws NegativeInputException, LargeNumberException {
+    public Expenses(String expenseType, double expenses) throws NegativeInputException, LargeNumberException {
         if (expenses < 0) {
             throw new NegativeInputException();
         } else if (expenses > 100000) {
@@ -25,21 +25,18 @@ public class Expenses implements Serializable {
         this.expense = expenses;
     }
 
-    public int getExpense() {
+    public double getExpense() {
         return expense;
     }
 
     public void setCategory(Category c) {
         this.category = c;
-
-
     }
 
     public Category getCategory() {
         return category;
     }
 
-    // EFFECTS: returns type of expense
     public String getType() {
         return expenseType;
     }
@@ -48,7 +45,7 @@ public class Expenses implements Serializable {
         this.expenseType = expenseType;
     }
 
-    public void setExpense(int expense) throws NegativeInputException, LargeNumberException {
+    public void setExpense(double expense) throws NegativeInputException, LargeNumberException {
         if (expense < 0) {
             throw new NegativeInputException();
         } else if (expense > 100000) {

@@ -81,7 +81,7 @@ class ExpensesTest {
     }
     @Test
     void testToString() {
-        assertEquals(expenses.toString(), "rent, 1500");
+        assertEquals(expenses.toString(), "rent, 1500.0");
     }
 }
 

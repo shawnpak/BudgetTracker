@@ -10,7 +10,6 @@ import java.util.Scanner;
 import org.json.*;
 
 public class ReadWebPageEX {
-    // shamelessly quoting from: https://edge.edx.org/courses/course-v1:UBC+CPSC210+all/courseware/f636f4e1dd5348ed8f6dc7c3defed983/0539f11dfbe14bf0a6867f7c6441624b/1?activate_block_id=block-v1%3AUBC%2BCPSC210%2Ball%2Btype%40vertical%2Bblock%4038dc1fe6e45a420ea1936b0165c6e58d
     public static void main(String[] args) throws MalformedURLException, IOException {
         Scanner scan = null;
         try {
