@@ -242,6 +242,7 @@ public class NewBudget extends JFrame {
         } else if (amo > 100000) {
             throw new LargeNumberException();
         }
+        //
         model.insertRow(model.getRowCount(), new Object[]{category, nameF.getText(), amountF.getText()});
         totalExpense += Integer.parseInt(amountF.getText());
 
