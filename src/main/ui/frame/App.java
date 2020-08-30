@@ -47,10 +47,13 @@ public class App extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(new Insets(50, 100, 50, 100)));
         panel.add(label);
+        label.setForeground(Color.white);
+        label.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
         panel.add(Box.createRigidArea(new Dimension(0, 50)));
         panel.add(newB);
         panel.add(Box.createRigidArea(new Dimension(0, 30)));
         panel.add(loadB);
+        panel.setBackground(Color.black);
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
