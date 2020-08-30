@@ -43,7 +43,7 @@ public class App extends JFrame {
             }
         });
 
-//
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(new Insets(50, 100, 50, 100)));
         panel.add(label);
