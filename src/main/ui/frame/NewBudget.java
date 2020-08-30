@@ -111,6 +111,7 @@ public class NewBudget extends JFrame {
         panelB.add(setB);
         panelB.add(backB);
         panelB.add(finalBudget);
+        panelB.setBackground(Color.ORANGE);
 
         panelE.add(catE);
         panelE.add(r1);
@@ -125,6 +126,7 @@ public class NewBudget extends JFrame {
         panelE.add(scrollPane);
         panelE.add(statusE);
         panelE.add(backE);
+        panelE.setBackground(Color.PINK);
 
         panelCont.add(panel, "1");
         panelCont.add(panelB, "2");
@@ -235,7 +237,7 @@ public class NewBudget extends JFrame {
         int amo = Integer.parseInt(amountF.getText());
         if (budget == 0) {
             throw new BudgetNotSetException();
-        } else if (!nameF.getText().matches("[0-9]*[a-zA-Z]+[0-9]*")) {
+        } else if (!nameF.getText().matches("^\\d*\\s?[a-z]\\s?[a-z\\d]*$")) {
             throw new InvalidExpenseException();
         } else if (amo < 0) {
             throw new NegativeInputException();
