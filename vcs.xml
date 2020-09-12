@@ -194,6 +194,10 @@
           <option name="url" value="https://github.students.cs.ubc.ca/CPSC310-2020W-T1/c0_team300" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.students.cs.ubc.ca/cpsc310-2020w-t1/c0_team300.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="$USER_HOME$/IdeaProjects" />
